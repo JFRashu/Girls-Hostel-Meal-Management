@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* Use 'index' for the home page route */}
-          <Route index element={<Home />} />  {/* Home route */}
+          <Route index element={<MealManagementHome />} />  {/* Home route */}
           <Route path="/StudentDashboard" element={<StudentDashboard/>}/>
           <Route path="/AdminDashboard" element={<AdminDashboard/>}/>
           <Route path="*" element={<MealManagementHome />} />

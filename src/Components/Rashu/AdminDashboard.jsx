@@ -23,19 +23,12 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-100 p-4">
+    <div className="min-h-screen bg-slate-100 p-4 pt-4">
       {/* Header */}
-      <div className="bg-blue-200 p-3 rounded-lg flex justify-between items-center mb-4">
-        <Home className="w-6 h-6" />
-        <div className="font-semibold">🍽️ Meal Management 🏠</div>
-        <div className="flex gap-2">
-          <LogIn className="w-6 h-6" />
-          <User className="w-6 h-6" />
-        </div>
-      </div>
+      
 
       {/* Admin Dashboard Title */}
-      <div className="text-center text-blue-600 text-xl font-bold mb-6">
+      <div className="text-center text-blue-600 text-xl font-bold mb-6 mt-0">
         Admin Dashboard
       </div>
 
@@ -78,7 +71,7 @@ const AdminDashboard = () => {
               <input
                 type="text"
                 placeholder="Enter ID"
-                className="w-full p-2 rounded bg-green-50 border border-green-100"
+                className="w-full p-2 rounded bg-green-100 border border-green-200"
               />
               <div className="flex gap-3">
                 <select className="p-2 rounded bg-green-50 border border-green-100 flex-1">

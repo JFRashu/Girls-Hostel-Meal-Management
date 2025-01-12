@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, LogIn, User } from 'lucide-react';
+
 
 const MealManagementHome = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -7,14 +7,7 @@ const MealManagementHome = () => {
   return (
     <div className="min-h-screen bg-yellow-50 p-4">
       {/* Header */}
-      <div className="bg-blue-200 p-3 rounded-lg flex justify-between items-center mb-4">
-        <Home className="w-6 h-6" />
-        <div className="font-semibold">🍽️ Meal Management 🏠</div>
-        <div className="flex gap-2">
-          <LogIn className="w-6 h-6" />
-          <User className="w-6 h-6" />
-        </div>
-      </div>
+      
 
       {/* Main Content */}
       <div className="text-center text-blue-600 text-xl font-bold mb-6">

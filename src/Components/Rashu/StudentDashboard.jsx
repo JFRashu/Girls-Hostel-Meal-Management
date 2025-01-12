@@ -30,16 +30,8 @@ const StudentDashboard = ({ isManager = true }) => {
   };
 
   return (
-    <div className="min-h-screen bg-blue-100 p-4">
-      {/* Header */}
-      <div className="bg-blue-200 p-3 rounded-lg flex justify-between items-center mb-4">
-        <Home className="w-6 h-6" />
-        <div className="font-semibold">🍽️ Meal Management 🏠</div>
-        <div className="flex gap-2">
-          <LogIn className="w-6 h-6" />
-          <User className="w-6 h-6" />
-        </div>
-      </div>
+    <div className="min-h-screen bg-yellow-50 p-4">
+      
 
       {/* Dashboard Title */}
       <div className="text-center text-blue-600 text-xl font-bold mb-6">
@@ -66,7 +58,7 @@ const StudentDashboard = ({ isManager = true }) => {
             <div>
               <h2 className="font-semibold mb-3">Token Status</h2>
               <div className="bg-white rounded-lg border border-gray-200 p-4">
-                <h3 className="text-center font-medium mb-4">December</h3>
+                <h3 className="text-center font-medium mb-4">January 2025 </h3>
                 <div className="grid grid-cols-7 gap-2">
                   {generateCalendarDays().map(day => (
                     <div 
