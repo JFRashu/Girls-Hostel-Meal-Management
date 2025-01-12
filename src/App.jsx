@@ -4,6 +4,9 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import Layout from './Routes/Layout'
 import Home from './Routes/Home'
+import MealManagementHome from './Components/Rashu/MealManagementHome'
+import AdminDashboard from './Components/Rashu/AdminDashboard'
+import StudentDashboard from './Components/Rashu/StudentDashboard'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,8 +18,9 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* Use 'index' for the home page route */}
           <Route index element={<Home />} />  {/* Home route */}
-          
-          <Route path="*" element={<Home />} />
+          <Route path="/StudentDashboard" element={<StudentDashboard/>}/>
+          <Route path="/AdminDashboard" element={<AdminDashboard/>}/>
+          <Route path="*" element={<MealManagementHome />} />
         </Route>
       </Routes>
     </BrowserRouter>
