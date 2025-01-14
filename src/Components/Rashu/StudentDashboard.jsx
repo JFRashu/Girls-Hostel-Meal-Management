@@ -90,7 +90,7 @@ const StudentDashboard = ({ isManager = true }) => {
   };
 
   return (
-    <div className="min-h-screen bg-yellow-50 p-4 gap-3">
+    <div className="min-h-screen bg-stone-100 p-4 gap-3">
       <div className="text-center text-blue-600 text-xl font-bold mb-6">
         Student Dashboard
       </div>
@@ -222,7 +222,7 @@ const StudentDashboard = ({ isManager = true }) => {
                   />
 
                   {/* Create Button */}
-                  <button className="mt-2  text-white bg-blue-500 px-4 py-1 rounded  hover:bg-blue-600">Create</button>
+                  <button onClick={handleCreateNotice} className="mt-2  text-white bg-blue-500 px-4 py-1 rounded  hover:bg-blue-600">Create</button>
 
 
                 </div>

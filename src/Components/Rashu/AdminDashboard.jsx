@@ -64,7 +64,7 @@ const AdminDashboard = () => {
   const generateYearOptions = () => {
     const currentYear = new Date().getFullYear();
     const years = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = -1; i < 4; i++) {
       years.push(currentYear + i);
     }
     return years;
@@ -147,7 +147,7 @@ const AdminDashboard = () => {
   );
 
   return (
-    <div className="min-h-screen bg-yellow-50 p-4 pt-4">
+    <div className="min-h-screen bg-stone-100 p-4 pt-4">
       {/* Header */}
       <div className="text-center text-blue-600 text-xl font-bold mb-6 mt-0">
         Admin Dashboard
@@ -397,7 +397,7 @@ const AdminDashboard = () => {
                   ))}
                 </select>
               </div>
-              {updateMonth && updateYear && updateMealType(
+              {updateMonth && updateYear && updateMealType &&(
                 <div className="bg-lime-100 p-4 rounded-lg shadow">
                   <h3 className="text-center font-medium mb-4">{updateMonth} {updateYear}</h3>
                   <div className="grid grid-cols-7 gap-2">
