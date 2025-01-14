@@ -35,7 +35,7 @@ const StudentDashboard = ({ isManager = true }) => {
 
       {/* Dashboard Title */}
       <div className="text-center text-blue-600 text-xl font-bold mb-6">
-        {isManager ? 'Manager Dashboard' : 'Student Dashboard'}
+        { 'Student Dashboard'}
       </div>
 
       {/* Main Content */}
@@ -106,7 +106,7 @@ const StudentDashboard = ({ isManager = true }) => {
                 />
                 <button
                   onClick={handleCreateNotice}
-                  className="bg-blue-200 px-4 py-2 rounded hover:bg-blue-300 transition-colors"
+                  className="mt-2  text-white bg-blue-500 px-4 py-1 rounded  hover:bg-blue-600"
                 >
                   Create
                 </button>

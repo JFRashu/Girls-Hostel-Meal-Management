@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from '../Components/Navbar';
+
 import { Outlet } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import { RNavBar } from '../Components/Rashu/RNavBar';
@@ -11,7 +11,6 @@ const Layout = () => {
          <RNavBar />
       {/* Outlet (self-closing tag) */}
       <Outlet/>
-      {/* Footer (self-closing tag) */}
       <Footer />
    </>
 
