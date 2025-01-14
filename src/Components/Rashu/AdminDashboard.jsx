@@ -2,12 +2,16 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Home, LogIn, User, X } from 'lucide-react';
 
 const AdminDashboard = () => {
+  const [noticeTitle, setNoticeTitle] = useState('');
+  const [noticeContent, setNoticeContent] = useState('');
   const [selectedDates, setSelectedDates] = useState({});
   const [updateDates, setUpdateDates] = useState({});
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedMealType, setSelectedMealType] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
   const [updateMonth, setUpdateMonth] = useState('');
   const [updateYear, setUpdateYear] = useState('');
+  const [updateMealType, setUpdateMealType] = useState('');
   const [generateMonth, setGenerateMonth] = useState('');
   const [generateYear, setGenerateYear] = useState('');
   const [totalStudents, setTotalStudents] = useState('');
@@ -39,6 +43,11 @@ const AdminDashboard = () => {
 
     fetchManagers();
   }, []);
+  const handleCreateNotice = () => {
+    // Handle notice creation logic here
+    console.log('Notice Title:', noticeTitle);
+    console.log('Notice Content:', noticeContent);
+  };
 
   const handleRemoveManager = (managerId) => {
     setManagers(managers.filter(manager => manager.id !== managerId));
@@ -47,6 +56,9 @@ const AdminDashboard = () => {
   const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  const mealTypes = [
+    'Lunch','Dinner'
   ];
 
   const generateYearOptions = () => {
@@ -191,6 +203,7 @@ const AdminDashboard = () => {
               </button>
             </div>
           </div>
+         
 
           {/* Create Monthly Budget */}
           <div className="bg-white p-4 rounded-lg shadow-md">
@@ -218,6 +231,7 @@ const AdminDashboard = () => {
                   ))}
                 </select>
               </div>
+              <div className="flex gap-3">
               <input
                 type="number"
                 placeholder="Total Students"
@@ -232,6 +246,7 @@ const AdminDashboard = () => {
                 onChange={(e) => setTotalTokens(e.target.value)}
                 className="w-full p-2 rounded bg-green-100 border border-green-200"
               />
+              </div>
               <button
                 onClick={handleCreateBudget}
                 className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 "
@@ -245,13 +260,31 @@ const AdminDashboard = () => {
         {/* Right Column */}
         <div className="space-y-6">
           {/* Notice Creation */}
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <h2 className="font-semibold mb-3">Notice Creation</h2>
-            <textarea
-              placeholder="Type your notice..."
-              className="w-full p-3 rounded   bg-green-100 border border-green-200 h-32 resize-none"
-            />
-            <button className="mt-2  text-white bg-blue-500 px-4 py-1 rounded  hover:bg-blue-600">Create</button>
+          
+        <div className="bg-white p-4 rounded-lg shadow-md">
+        <h2 className="font-semibold mb-3">Notice Creation</h2>
+          
+          {/* Title Input */}
+          <input 
+            type="text"
+            placeholder="Notice Title"
+            className="input input-bordered w-full mb-4 p-2 rounded bg-green-100 border border-green-200"
+            value={noticeTitle}
+            onChange={(e) => setNoticeTitle(e.target.value)}
+          />
+          
+          {/* Content Textarea */}
+          <textarea
+            placeholder="Type your notice content..."
+            className="textarea textarea-bordered w-full h-32 mb-4 p-2 rounded bg-green-100 border border-green-200"
+            value={noticeContent}
+            onChange={(e) => setNoticeContent(e.target.value)}
+          />
+          
+          {/* Create Button */}
+          <button className="mt-2  text-white bg-blue-500 px-4 py-1 rounded  hover:bg-blue-600">Create</button>
+      
+      
           </div>
 
           {/* Generate Monthly Token */}
@@ -353,8 +386,18 @@ const AdminDashboard = () => {
                     <option key={year} value={year}>{year}</option>
                   ))}
                 </select>
+                <select
+                  className="p-2 rounded bg-green-50 border border-green-100 flex-1"
+                  value={updateMealType}
+                  onChange={(e) => setUpdateMealType(e.target.value)}
+                >
+                  <option value="">Select Meal Type</option>
+                  {mealTypes.map(mealType => (
+                    <option key={mealType} value={mealType}>{mealType}</option>
+                  ))}
+                </select>
               </div>
-              {updateMonth && updateYear && (
+              {updateMonth && updateYear && updateMealType(
                 <div className="bg-lime-100 p-4 rounded-lg shadow">
                   <h3 className="text-center font-medium mb-4">{updateMonth} {updateYear}</h3>
                   <div className="grid grid-cols-7 gap-2">
