@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Home, LogIn, User } from 'lucide-react';
+
 
 const StudentDashboard = ({ isManager = true }) => {
   const [noticeText, setNoticeText] = useState('');
