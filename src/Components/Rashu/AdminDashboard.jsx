@@ -102,15 +102,15 @@ const AdminDashboard = () => {
   const renderCurrentManagers = () => (
     <div className="bg-white p-4 rounded-lg shadow-md">
       <h2 className="font-semibold mb-3">Current Manager</h2>
-      <div className="space-y-3">
+      <div className=" space-y-3">
         {loading ? (
           <div className="text-center text-gray-500">Loading managers...</div>
         ) : error ? (
           <div className="text-center text-red-500">{error}</div>
         ) : managers.length > 0 ? (
           managers.map((manager) => (
-            <div key={manager.id} className="bg-white p-3 rounded-lg shadow flex justify-between items-center">
-              <div className="flex items-center gap-3">
+            <div key={manager.id} className="bg-blue-100 p-3 rounded-lg shadow flex justify-between items-center">
+              <div className="flex  items-center gap-3">
                 <User className="w-6 h-6" />
                 <div>
                   <p className="font-medium">{manager.name}</p>
