@@ -26,7 +26,7 @@ const MealManagementHome = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-yellow-50 p-4">
+    <div className="min-h-screen  bg-stone-100 p-4">
       {/* Header */}
 
       {/* Main Content */}

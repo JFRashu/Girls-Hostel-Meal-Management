@@ -398,7 +398,7 @@ const AdminDashboard = () => {
                 </select>
               </div>
               {updateMonth && updateYear && updateMealType &&(
-                <div className="bg-lime-100 p-4 rounded-lg shadow">
+                <div className="bg-lime-50 p-4 rounded-lg shadow">
                   <h3 className="text-center font-medium mb-4">{updateMonth} {updateYear}</h3>
                   <div className="grid grid-cols-7 gap-2">
                     {generateCalendarDays(updateMonth, updateYear).map(day => (
