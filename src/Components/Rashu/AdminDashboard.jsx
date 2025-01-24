@@ -282,7 +282,7 @@ const AdminDashboard = () => {
           />
           
           {/* Create Button */}
-          <button className="mt-2  text-white bg-blue-500 px-4 py-1 rounded  hover:bg-blue-600">Create</button>
+          <button onClick={handleCreateNotice} className="mt-2  text-white bg-blue-500 px-4 py-1 rounded  hover:bg-blue-600">Create</button>
       
       
           </div>
