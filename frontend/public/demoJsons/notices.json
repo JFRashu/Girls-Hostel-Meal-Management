@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "title": "Maintenance Alert",
+    "details": "The hall's water supply will be disrupted from 10 AM to 2 PM on January 15, 2025."
+  },
+  {
+    "id": 2,
+    "title": "Meal Coupons Available",
+    "details": "Collect your meal tokenss for the semester from the hall office by January 20, 2025."
+  },
+  {
+    "id": 3,
+    "title": "Cultural Night",
+    "details": "Join us for an evening of fun and performances on January 25, 2025, at 7 PM in the dining hall."
+  }
+]
