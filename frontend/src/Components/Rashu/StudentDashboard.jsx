@@ -9,6 +9,7 @@ const StudentDashboard = () => {
   const currentYear = today.getFullYear();
 
   const [studentData, setStudentData] = useState('');
+  const [dueRefundData, setDueRefundData] = useState(null); // New state for due & refund amounts
   const [noticeText, setNoticeText] = useState('');
   const [noticeTitle, setNoticeTitle] = useState('');
   const [noticeContent, setNoticeContent] = useState('');
@@ -21,6 +22,8 @@ const StudentDashboard = () => {
   const [isManager, setIsManager] = useState(false);
   const [managerData, setManagerData] = useState(null);
   const [budgetData, setBudgetData] = useState(null);
+  const [todayTokenCount, setTodayTokenCount] = useState(0);
+  const [tomorrowTokenCount, setTomorrowTokenCount] = useState(0);
 
   const studentId = localStorage.getItem("currentUserId");
 
@@ -81,10 +84,24 @@ const StudentDashboard = () => {
         console.error('Error fetching budget data:', error);
       }
     };
+
+    const fetchDueRefundData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:4000/api/dueRefunds/getDueRefunds`, {
+          params: { studentID: studentId }
+        });
+        console.log("Due Refund Response:", response.data);
+        setDueRefundData(response.data); // Store due & refund details
+      } catch (error) {
+        console.error("Error fetching due refund data:", error);
+      }
+    };
+
     
     handleGetBudget();
     fetchStudentData();
     fetchManagerData();
+    fetchDueRefundData();
   }, []);
 
   useEffect(() => {
@@ -112,7 +129,36 @@ const StudentDashboard = () => {
     };    
   
     fetchTokenData();
-  }, [selectedMonth, selectedYear, selectedMealType]); 
+  }, [selectedMonth, selectedYear, selectedMealType]);
+
+  const fetchTokenCounts = async () => {
+    try {
+      const today = new Date();
+      const todayDay = today.getDate(); // Get today's day (e.g., 17)
+      
+      const tomorrow = new Date();
+      tomorrow.setDate(today.getDate() + 1);
+      const tomorrowDay = tomorrow.getDate(); // Get tomorrow's day (e.g., 18)
+  
+      const response = await axios.get("http://localhost:4000/api/tokens/getTotalTokens", {
+        params: { dates: [todayDay, tomorrowDay], month: currentMonth, year: currentYear } // Send both today & tomorrow as numbers
+      });
+  
+      console.log("Token Counts:", response.data);
+  
+      setTodayTokenCount(response.data[todayDay] || 0);
+      setTomorrowTokenCount(response.data[tomorrowDay] || 0);
+    } catch (error) {
+      console.error("Error fetching token counts:", error);
+    }
+  };  
+
+  // Fetch token counts after fetching manager data
+  useEffect(() => {
+    if (isManager) {
+      fetchTokenCounts();
+    }
+  }, [isManager]);
 
   const generateYearOptions = () => {
     const currentYear = new Date().getFullYear();
@@ -127,26 +173,54 @@ const StudentDashboard = () => {
     if (!month || !year) return 31;
     return new Date(year, months.indexOf(month) + 1, 0).getDate();
   };
-
+  
   const getTokenStatus = (day) => {
+      // Convert string months to numbers for comparison
+      const selectedMonthNumber = months.indexOf(selectedMonth); // Convert selectedMonth to number (0-11)
+      const currentMonthNumber = months.indexOf(currentMonth); // Convert currentMonth to number (0-11)
   
-    // If the month & year match the current date
-    if (selectedMonth === currentMonth && selectedYear == currentYear) {
-      if (tokenData.includes(day)) {
-        return day < currentDate ? "taken" : "not-served"; // Past days are taken, future are not served
-      } else {
-        return "not-taken"; // If the student returned the token
+      // Compare selected month/year with current month/year
+      const isSelectedInPast = 
+          (selectedYear < currentYear) || 
+          (selectedYear === currentYear && selectedMonthNumber < currentMonthNumber);
+
+      const isSelectedInPresent = (selectedYear === currentYear && selectedMonthNumber === currentMonthNumber)
+  
+      if (isSelectedInPresent) {
+          // Check if token data exists for the selected month and year
+          if (tokenData) {
+              const isTokenTaken = tokenData.includes(day);
+              
+              if (day <= currentDate) {
+                  // If the day is in the past or today
+                  return isTokenTaken ? "taken" : "not-taken"; // Check if token is taken or not
+              } else {
+                  return "not-served"; // If the day is in the future, mark as not-served
+              }
+          } else {
+              // If no data for the selected month/year, mark all days as not-taken
+              if (day <= currentDate) {
+                  return "not-taken"; // Default to not-taken if no token data exists
+              } else {
+                  return "not-served"; // Future days are not served
+              }
+          }
+      }else if (isSelectedInPast) {
+          // Check if token data exists for the selected month and year
+          if (tokenData) {
+            const isTokenTaken = tokenData.includes(day);
+
+            return isTokenTaken ? "taken" : "not-taken";
+          } else {
+              // If no data for the selected month/year, mark all days as not-taken
+              return "not-taken";
+          }
+      }else {
+          // If the selected month/year is in the future, all dates should be "not-served"
+          return "not-served";
       }
-    }
-  
-    // If it's a **past month**, assume all token days are "taken", others "not-taken"
-    if (new Date(selectedYear, months.indexOf(selectedMonth)) < new Date(currentYear, today.getMonth())) {
-      return tokenData.includes(day) ? "taken" : "not-taken";
-    }
-  
-    // If it's a **future month**, all token days are "not served"
-    return tokenData.includes(day) ? "not-served" : "not-taken";
   };
+  
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -213,6 +287,12 @@ const StudentDashboard = () => {
                 <p className="mb-1">Name: {studentData.name}</p>
                 <p className="mb-1">ID: {studentData.student_id}</p>
                 <p className="mb-1">Room no: {studentData.room_number}</p>
+                {dueRefundData && (
+                  <>
+                    <p className="mb-1"><strong>Due Amount:</strong> {dueRefundData.total_due_amount} Tk</p>
+                    <p className="mb-1"><strong>Refund Amount:</strong> {dueRefundData.total_refund_amount} Tk</p>
+                  </>
+                )}
               </div>
             </div>
 
@@ -302,7 +382,8 @@ const StudentDashboard = () => {
                 <h2 className="font-semibold text-lg text-blue-600">Manager Statistics</h2>
                 <div className="space-y-2">
                   <p className="text-gray-700">Assigned Month: {managerData.month}, {managerData.year}</p>
-                  <p className="text-gray-700">Token Count For 19th December: 98</p>
+                  <p className="text-gray-700">Token Count Today: {todayTokenCount}</p>
+                  <p className="text-gray-700">Token Count Tomorrow: {tomorrowTokenCount}</p>
                   <p className="text-gray-700"> Budget For this Month: {budgetData ? budgetData.amount : "N/A"} Tk </p>
                 </div>
               </div>

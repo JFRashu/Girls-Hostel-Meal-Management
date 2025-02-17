@@ -33,6 +33,18 @@ const AdminDashboard = () => {
   const [uloading, setuLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // New state variables for the Update Due/Refund form
+  const [dueRefundStudentID, setDueRefundStudentID] = useState('');
+  const [dueRefundMonth, setDueRefundMonth] = useState('');
+  const [dueRefundYear, setDueRefundYear] = useState('');
+  const [dueRefundType, setDueRefundType] = useState('');
+  const [dueRefundAmount, setDueRefundAmount] = useState('');
+
+  // New state variables for the Update Token Price form
+  const [priceMonth, setPriceMonth] = useState('');
+  const [priceYear, setPriceYear] = useState('');
+  const [tokenPrice, setTokenPrice] = useState('');
+
   const adminId = localStorage.getItem("currentUserId");
   const adminName = localStorage.getItem("currentUserName");
 
@@ -222,6 +234,35 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleUpdateTokenPrice = async () => {
+    // Create token price logic here
+    console.log('Updating Token Price for', priceMonth, priceYear, 'Token Price:', tokenPrice);
+
+    if (!priceMonth || !priceYear || !tokenPrice) {
+      alert("All fields are required.");
+      window.location.reload();
+      return;
+    }
+  
+    try {
+      const response = await axios.post("http://localhost:4000/api/duerefunds/updateTokenPrice", {
+        month: priceMonth,
+        year: priceYear,
+        amount: tokenPrice,
+      });
+  
+      console.log("Response:", response.data);
+      alert("Updating Token Price successful!");
+      
+      window.location.reload();
+
+    } catch (error) {
+      console.error("Updating Token Price failed:", error.response?.data || error.message);
+      alert(error.response?.data?.message || error.message);
+      window.location.reload();
+    }
+  };
+
   const handleGenerateMonthlyToken = async () => {
     console.log('Generating Monthly Token for', selectedStudentIDtoGMT, generateMonth, generateYear);
 
@@ -332,6 +373,32 @@ const AdminDashboard = () => {
 
     } catch (error) {
       console.error("Error updating tokens:", error);
+    }
+  };
+
+  // Handler for the Update Due/Refund form
+  const handleUpdateDueRefund = async () => {
+    if (!dueRefundStudentID || !dueRefundMonth || !dueRefundYear || !dueRefundType || !dueRefundAmount) {
+      alert("All fields are required.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:4000/api/dueRefunds/updateDueRefund", {
+        studentID: dueRefundStudentID,
+        month: dueRefundMonth,
+        year: dueRefundYear,
+        type: dueRefundType,
+        amount: dueRefundAmount,
+      });
+
+      console.log("Response:", response.data);
+      alert("Due/Refund updated successfully!");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating due/refund:", error.response?.data || error.message);
+      alert(error.response?.data?.message || error.message);
+      window.location.reload();
     }
   };
   
@@ -472,6 +539,50 @@ const AdminDashboard = () => {
                 className="bg-green-500 text-white px-4 py-1 rounded hover:bg-green-600 "
               >
                 Create Budget
+              </button>
+            </div>
+          </div>
+
+          {/* update token price */}
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="font-semibold mb-3">Update Token Price</h2>
+            <div className="space-y-3">
+              <div className="flex gap-3">
+                <select
+                  className="p-2 rounded bg-green-50 border border-green-100 flex-1"
+                  value={priceMonth}
+                  onChange={(e) => setPriceMonth(e.target.value)}
+                >
+                  <option value="">Select Month</option>
+                  {months.map(month => (
+                    <option key={month} value={month}>{month}</option>
+                  ))}
+                </select>
+                <select
+                  className="p-2 rounded bg-green-50 border border-green-100 flex-1"
+                  value={priceYear}
+                  onChange={(e) => setPriceYear(e.target.value)}
+                >
+                  <option value="">Select Year</option>
+                  {generateYearOptions().map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex gap-3">
+              <input
+                type="number"
+                placeholder="Token Price"
+                value={tokenPrice}
+                onChange={(e) => setTokenPrice(e.target.value)}
+                className="w-full p-2 rounded bg-green-100 border border-green-200"
+              />
+              </div>
+              <button
+                onClick={handleUpdateTokenPrice}
+                className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-green-600 "
+              >
+                Update
               </button>
             </div>
           </div>
@@ -645,6 +756,64 @@ const AdminDashboard = () => {
                   Update
                 </button>
               </div>
+            </div>
+          </div>
+
+          {/* Update Due/Refund Form */}
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <h2 className="font-semibold mb-3">Update Due/Refund</h2>
+            <div className="space-y-3">
+              <input
+                type="text"
+                placeholder="Enter Student ID"
+                className="w-full p-2 rounded bg-green-100 border border-green-200"
+                value={dueRefundStudentID}
+                onChange={(e) => setDueRefundStudentID(e.target.value)}
+              />
+              <div className="flex gap-3">
+                <select
+                  className="p-2 rounded bg-green-50 border border-green-100 flex-1"
+                  value={dueRefundMonth}
+                  onChange={(e) => setDueRefundMonth(e.target.value)}
+                >
+                  <option value="">Select Month</option>
+                  {months.map(month => (
+                    <option key={month} value={month}>{month}</option>
+                  ))}
+                </select>
+                <select
+                  className="p-2 rounded bg-green-50 border border-green-100 flex-1"
+                  value={dueRefundYear}
+                  onChange={(e) => setDueRefundYear(e.target.value)}
+                >
+                  <option value="">Select Year</option>
+                  {generateYearOptions().map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
+                </select>
+                <select
+                  className="p-2 rounded bg-green-50 border border-green-200 flex-1"
+                  value={dueRefundType}
+                  onChange={(e) => setDueRefundType(e.target.value)}
+                >
+                  <option value="">Select Type</option>
+                  <option value="Due">Due</option>
+                  <option value="Refund">Refund</option>
+              </select>
+              </div>
+              <input
+                type="number"
+                placeholder="Enter Amount"
+                className="w-full p-2 rounded bg-green-100 border border-green-200"
+                value={dueRefundAmount}
+                onChange={(e) => setDueRefundAmount(e.target.value)}
+              />
+              <button
+                onClick={handleUpdateDueRefund}
+                className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+              >
+                Update
+              </button>
             </div>
           </div>
           
