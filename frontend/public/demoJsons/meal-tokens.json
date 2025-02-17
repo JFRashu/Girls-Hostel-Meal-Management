@@ -1,0 +1,34 @@
+{
+    "tokens": [
+      {
+        "tokenId": "T1001",
+        "date": "2025-01-01",
+        "mealType": "Lunch",
+        "status": true
+      },
+      {
+        "tokenId": "T1002",
+        "date": "2025-01-01",
+        "mealType": "Dinner",
+        "status": false
+      },
+      {
+        "tokenId": "T1003",
+        "date": "2025-01-02",
+        "mealType": "Lunch",
+        "status": true
+      },
+      {
+        "tokenId": "T1004",
+        "date": "2025-01-03",
+        "mealType": "Dinner",
+        "status": true
+      },
+      {
+        "tokenId": "T1005",
+        "date": "2025-01-05",
+        "mealType": "Lunch",
+        "status": false
+      }
+    ]
+  }
